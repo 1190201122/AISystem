@@ -137,24 +137,24 @@ String s2 = new StringBuilder(a).append(b).toString();
               10 RETURN_VALUE
   ```
 
-上面两图分别是 2 的 64 次幂和 4 的 64 次幂的 CPython 字节码，可以看出 2 的 64 次幂会被折叠成一个具体的数，而 4 的 64 次幂不会。
+  上面两图分别是 2 的 64 次幂和 4 的 64 次幂的 CPython 字节码，可以看出 2 的 64 次幂会被折叠成一个具体的数，而 4 的 64 次幂不会。
 
 - 当进行字符串运算的时候，比如两个字符串相加，当且仅当字符串相加的结果大小小于等于 4096 时，该常量表达式才会被折叠，否者不会进行折叠：
 
-```python
->>> dis.dis("day_sec='-'*4097")
-```
+  ```python
+  >>> dis.dis("day_sec='-'*4097")
+  ```
 
-```text
-1           0 LOAD_CONST               0 ('-')
-            2 LOAD_CONST               1 (4097)
-            4 BINARY_MULTIPLY
-            6 STORE_NAME               0 (day_sec)
-            8 LOAD_CONST               2 (None)
-            10 RETURN_VALUE
-```
+  ```text
+  1           0 LOAD_CONST               0 ('-')
+              2 LOAD_CONST               1 (4097)
+              4 BINARY_MULTIPLY
+              6 STORE_NAME               0 (day_sec)
+              8 LOAD_CONST               2 (None)
+              10 RETURN_VALUE
+  ```
 
-上面给出了结果大小为 4097 的字节码，可以看出并不会被折叠。而大小为 4096 会被折叠，由于会被折叠，得到的字符串是非常长的，这里就不给出例子了，读者可以自行尝试。
+  上面给出了结果大小为 4097 的字节码，可以看出并不会被折叠。而大小为 4096 会被折叠，由于会被折叠，得到的字符串是非常长的，这里就不给出例子了，读者可以自行尝试。
 
 ## AI编译器的常量折叠
 
